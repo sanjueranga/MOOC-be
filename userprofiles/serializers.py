@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import AccessToken
+from .models import UserProfile, Country
 
 
 
@@ -29,3 +30,36 @@ class UserSerializer(serializers.ModelSerializer):
             "user_id": instance.id,
             "access_token": str(AccessToken.for_user(instance)),
         }
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    country = serializers.CharField(max_length=100)
+
+    class Meta:
+        model = UserProfile
+        exclude = ["user"]
+
+    def validate(self, data):
+        request = self.context.get("request")
+        country_name = data.get("country")
+        action = data.pop("action")
+        user = request.user
+
+        if action == "create":
+            if UserProfile.objects.filter(user=user).exists():
+                raise serializers.ValidationError(
+                    {"user": "User profile already exists"}
+                )
+        try:
+            country_instance = Country.objects.get(label=country_name)
+            data["country"] = country_instance
+        except Country.DoesNotExist:
+            raise serializers.ValidationError(
+                {"Country": "Invalid country name provided"}
+            )
+        return data
+
+    def create(self, validated_data):
+        request = self.context.get("request")
+        validated_data["user"] = request.user
+        return super().create(validated_data)
