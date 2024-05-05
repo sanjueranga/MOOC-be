@@ -1,8 +1,10 @@
 from rest_framework import generics, permissions, status, viewsets
 from rest_framework.response import Response
-from userprofiles.serializers import UserSerializer, UserProfileSerializer,WorkExperienceSerializer,EducationSerializer
+from userprofiles.serializers import UserSerializer, UserProfileSerializer,WorkExperienceSerializer,EducationSerializer,UserLoginSerializer
 from userprofiles.models import UserProfile,WorkExperience,Education
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+from rest_framework_simplejwt.tokens import AccessToken
 
 
 class UserRegistrationAPIView(generics.CreateAPIView):
@@ -17,7 +19,37 @@ class UserRegistrationAPIView(generics.CreateAPIView):
         }
 
         return Response(respObj, status=status.HTTP_201_CREATED, headers=resp.headers)
+class UserLoginApiView(generics.GenericAPIView):
+    serializer_class = UserLoginSerializer
+    permission_classes = [permissions.AllowAny]
 
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user_name = serializer.validated_data["username"]
+        password = serializer.validated_data["password"]
+        user = authenticate(username=user_name, password=password)
+        if user:
+            respObj = {
+                "status": "success",
+                "data": {
+                    "access_token": str(AccessToken.for_user(user)),
+                    "user": {
+                        "user_id": user.id,
+                        "username": user.username,
+                        "full_name": f"{user.first_name} {user.last_name}",
+                        "email": user.email,
+                    },
+                },
+            }
+            return Response(respObj, status=status.HTTP_200_OK)
+        else:
+            respObj = {
+                "status": "fail",
+                "message": ["Invalid email or password"],
+            }
+
+        return Response(respObj, status=status.HTTP_403_FORBIDDEN)
 
 class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()

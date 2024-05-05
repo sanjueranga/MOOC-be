@@ -1,8 +1,9 @@
 from django.urls import path
-from .views import UserRegistrationAPIView, UserProfileViewSet, WorkExperienceViewset, EducationViewset
+from .views import UserRegistrationAPIView, UserProfileViewSet, WorkExperienceViewset, EducationViewset,UserLoginApiView
 
 urlpatterns = [
     path("register/", UserRegistrationAPIView.as_view(), name="user-registration"),
+    path("login/", UserLoginApiView.as_view(), name="user-login"),
     path(
         "info/",
         UserProfileViewSet.as_view({"post": "create", "put": "update"}),

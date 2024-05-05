@@ -116,3 +116,17 @@ class EducationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Education
         fields = "__all__"
+
+
+class UserLoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField()
+
+    def validate(self, attrs):
+        email = attrs["email"]
+        try:
+            user = User.objects.get(email=email)
+            attrs["username"] = user.username
+        except User.DoesNotExist:
+            attrs["username"] = None
+        return attrs
