@@ -5,7 +5,7 @@
     "fields": {
       "label": "University of Peradeniya",
       "profile_picture": "",
-      "country": ""
+      "country":  null
     }
   },
   {
@@ -14,7 +14,7 @@
     "fields": {
       "label": "University of Moratuwa",
       "profile_picture": "",
-      "country": ""
+      "country":  null
     }
   },
   {
@@ -23,7 +23,7 @@
     "fields": {
       "label": "University of Colombo",
       "profile_picture": "",
-      "country": ""
+      "country":  null
     }
   },
   {
@@ -32,7 +32,7 @@
     "fields": {
       "label": "Stanford University",
       "profile_picture": "",
-      "country": ""
+      "country":  null
     }
   },
   {
@@ -41,7 +41,7 @@
     "fields": {
       "label": "Massachusetts Institute of Technology (MIT)",
       "profile_picture": "",
-      "country": ""
+      "country":  null
     }
   },
   {
@@ -50,7 +50,7 @@
     "fields": {
       "label": "University of Oxford",
       "profile_picture": "",
-      "country": ""
+      "country":  null
     }
   },
   {
@@ -59,7 +59,7 @@
     "fields": {
       "label": "University of Cambridge",
       "profile_picture": "",
-      "country": ""
+      "country":  null
     }
   }
 ]
