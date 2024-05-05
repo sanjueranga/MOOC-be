@@ -10,7 +10,7 @@ urlpatterns = [
     ),
     path(
         "work/",
-        WorkExperienceViewset.as_view({"post": "create"}),
+        WorkExperienceViewset.as_view({"post": "create","get": "list"}),
         name="work-experience",
     ),
     path(

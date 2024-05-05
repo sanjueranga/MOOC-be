@@ -71,7 +71,7 @@ class WorkExperienceViewset(viewsets.ModelViewSet):
         )
 
     def update(self, request, *args, **kwargs):
-        
+
         response = super().update(request, *args, partial=True, **kwargs)
         respObj = {
             "status": "success",
@@ -80,4 +80,15 @@ class WorkExperienceViewset(viewsets.ModelViewSet):
         }
         return Response(
             respObj, status=status.HTTP_200_OK, headers=response.headers
+        )
+    
+    def destroy(self, request, *args, **kwargs):
+        response = super().destroy(request, *args, **kwargs)
+        respObj = {
+            "status": "success",
+            "message": "WorkExperience deleted successfully",
+            "data": "null",
+        }
+        return Response(
+            respObj, status=status.HTTP_204_NO_CONTENT, headers=response.headers
         )
