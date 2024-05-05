@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import AccessToken
-from .models import UserProfile, Country, UserType,Interest
+from .models import UserProfile, Country, UserType, Interest, WorkExperience
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -69,7 +69,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 {"User Type": "Invalid user type provided"}
             )
-        
+
         interests = data.pop("interests", [])
         data["interests"] = []
         self.fields.pop("interests")
@@ -94,8 +94,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
             user.last_name = validated_data.get("last_name", user.last_name)
             user.save()
         except Exception as e:
-            raise serializers.ValidationError(
-                {"username": "Username already exists"}
-            )
+            raise serializers.ValidationError({"username": "Username already exists"})
         return super().update(instance, validated_data)
-       
+
+
+class WorkExperienceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WorkExperience
+        fields = "__all__"
