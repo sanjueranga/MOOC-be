@@ -1,0 +1,65 @@
+[
+  {
+    "model": "userprofiles.institution",
+    "pk": 1,
+    "fields": {
+      "label": "University of Peradeniya",
+      "profile_picture": "",
+      "country": ""
+    }
+  },
+  {
+    "model": "userprofiles.institution",
+    "pk": 2,
+    "fields": {
+      "label": "University of Moratuwa",
+      "profile_picture": "",
+      "country": ""
+    }
+  },
+  {
+    "model": "userprofiles.institution",
+    "pk": 3,
+    "fields": {
+      "label": "University of Colombo",
+      "profile_picture": "",
+      "country": ""
+    }
+  },
+  {
+    "model": "userprofiles.institution",
+    "pk": 4,
+    "fields": {
+      "label": "Stanford University",
+      "profile_picture": "",
+      "country": ""
+    }
+  },
+  {
+    "model": "userprofiles.institution",
+    "pk": 5,
+    "fields": {
+      "label": "Massachusetts Institute of Technology (MIT)",
+      "profile_picture": "",
+      "country": ""
+    }
+  },
+  {
+    "model": "userprofiles.institution",
+    "pk": 6,
+    "fields": {
+      "label": "University of Oxford",
+      "profile_picture": "",
+      "country": ""
+    }
+  },
+  {
+    "model": "userprofiles.institution",
+    "pk": 7,
+    "fields": {
+      "label": "University of Cambridge",
+      "profile_picture": "",
+      "country": ""
+    }
+  }
+]

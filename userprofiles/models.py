@@ -52,6 +52,7 @@ class Degree(models.Model):
 class Institution(models.Model):
     label = models.CharField(max_length=100, unique=True)
     profile_picture = models.CharField(max_length=100, blank=True, null=True)
+    country = models.ForeignKey(Country, on_delete=models.PROTECT, blank=True,null=True)
 
     def __str__(self):
         return self.label
