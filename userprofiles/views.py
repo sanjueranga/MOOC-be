@@ -23,11 +23,8 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
 
-    def get_object(self, request):
-        username = request.query_params.get("username")
-        if username is None:
-            return self.request.user
-        return User.objects.get(username=username)
+    def get_object(self):
+        return self.request.user.userprofile
 
     def create(self, request):
         request.data["action"] = self.action
@@ -39,4 +36,17 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         }
         return Response(
             respObj, status=status.HTTP_201_CREATED, headers=response.headers
+        )
+
+    def update(self, request, *args, **kwargs):
+        request.data["user_type"] = request.user.userprofile.user_type.label
+        request.data["action"] = self.action
+        response = super().update(request, *args, **kwargs)
+        respObj = {
+            "status": "success",
+            "message": "User data updated successfully",
+            "data": "null",
+        }
+        return Response(
+            respObj, status=status.HTTP_200_OK, headers=response.headers
         )

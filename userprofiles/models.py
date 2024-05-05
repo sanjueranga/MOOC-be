@@ -34,7 +34,7 @@ class UserProfile(models.Model):
     country = models.ForeignKey(Country, on_delete=models.PROTECT, blank=False)
     description = models.TextField(max_length=1000,blank=True, null=True)
     birth_date = models.DateField()
-    user_type = models.ForeignKey(UserType, on_delete=models.PROTECT)
+    user_type = models.ForeignKey(UserType, on_delete=models.PROTECT, editable=False)
     interests = models.ManyToManyField(Interest, blank=True)
 
 

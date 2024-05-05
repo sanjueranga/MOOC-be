@@ -5,7 +5,7 @@ urlpatterns = [
     path("register/", UserRegistrationAPIView.as_view(), name="user-registration"),
     path(
         "info/",
-        UserProfileViewSet.as_view({"post": "create"}),
+        UserProfileViewSet.as_view({"post": "create", "put": "update"}),
         name="user-info",
     ),
 ]
