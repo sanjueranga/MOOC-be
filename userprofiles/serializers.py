@@ -4,14 +4,13 @@ from rest_framework_simplejwt.tokens import AccessToken
 from .models import UserProfile, Country, UserType
 
 
-
 class UserSerializer(serializers.ModelSerializer):
     firstname = serializers.CharField(source="first_name", required=True)
     lastname = serializers.CharField(source="last_name", required=True)
 
     class Meta:
         model = User
-        fields = ["firstname", "lastname", "email", "password","username"]
+        fields = ["firstname", "lastname", "email", "password", "username"]
         extra_kwargs = {"password": {"write_only": True}}
 
     def validate(self, attrs):
@@ -36,6 +35,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
     country = serializers.CharField(max_length=100)
     user_type = serializers.CharField(max_length=100)
     action = serializers.CharField(max_length=100, required=False)
+    firstname = serializers.CharField(source="first_name", required=False)
+    lastname = serializers.CharField(source="last_name", required=False)
+    username = serializers.CharField(required=False)
 
     class Meta:
         model = UserProfile
@@ -73,3 +75,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
         request = self.context.get("request")
         validated_data["user"] = request.user
         return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        user = instance.user
+        user.username = validated_data.get("username", user.username)
+        user.first_name = validated_data.get("first_name", user.first_name)
+        user.last_name = validated_data.get("last_name", user.last_name)
+        user.save()
+        return super().update(instance, validated_data)
+       
