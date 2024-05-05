@@ -1,0 +1,152 @@
+[
+  {
+    "model": "userprofiles.interest",
+    "pk": 1,
+    "fields": { "label": "Computer Science" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 2,
+    "fields": { "label": "Mathematics" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 3,
+    "fields": { "label": "Physics" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 4,
+    "fields": { "label": "Chemistry" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 5,
+    "fields": { "label": "Biology" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 6,
+    "fields": { "label": "Astronomy & Astrophysics" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 7,
+    "fields": { "label": "Environmental Sciences & Ecology" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 8,
+    "fields": { "label": "Geography" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 9,
+    "fields": { "label": "Engineering" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 10,
+    "fields": { "label": "Information Science & Library Science" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 11,
+    "fields": { "label": "Robotics" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 12,
+    "fields": { "label": "Telecommunications" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 13,
+    "fields": { "label": "Economics" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 14,
+    "fields": { "label": "Business & Management" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 15,
+    "fields": { "label": "Psychology" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 16,
+    "fields": { "label": "Sociology" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 17,
+    "fields": { "label": "Political Science" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 18,
+    "fields": { "label": "Anthropology" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 19,
+    "fields": { "label": "Linguistics" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 20,
+    "fields": { "label": "Education & Educational Research" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 21,
+    "fields": { "label": "Communication" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 22,
+    "fields": { "label": "History" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 23,
+    "fields": { "label": "Archaeology" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 24,
+    "fields": { "label": "Philosophy" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 25,
+    "fields": { "label": "Literature" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 26,
+    "fields": { "label": "Software Engineering" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 27,
+    "fields": { "label": "Backend Development" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 28,
+    "fields": { "label": "DevOps" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 29,
+    "fields": { "label": "Cloud Computing" }
+  },
+  {
+    "model": "userprofiles.interest",
+    "pk": 30,
+    "fields": { "label": "Networking" }
+  }
+]
