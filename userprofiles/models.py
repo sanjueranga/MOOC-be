@@ -35,7 +35,6 @@ class UserProfile(models.Model):
     description = models.TextField(max_length=1000)
     birth_date = models.DateField()
     user_type = models.ForeignKey(UserType, on_delete=models.PROTECT)
-    authentication_type = models.ForeignKey(AuthenticationType, on_delete=models.PROTECT)
     interests = models.ManyToManyField(Interest)
 
 
