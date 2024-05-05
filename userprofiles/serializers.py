@@ -1,7 +1,15 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import AccessToken
-from .models import UserProfile, Country, UserType, Interest, WorkExperience
+from .models import (
+    UserProfile,
+    Country,
+    UserType,
+    Interest,
+    WorkExperience,
+    Education,
+    Institution,
+)
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -101,4 +109,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class WorkExperienceSerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkExperience
+        fields = "__all__"
+
+
+class EducationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Education
         fields = "__all__"

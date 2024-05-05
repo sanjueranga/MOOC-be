@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import UserRegistrationAPIView, UserProfileViewSet, WorkExperienceViewset
+from .views import UserRegistrationAPIView, UserProfileViewSet, WorkExperienceViewset, EducationViewset
 
 urlpatterns = [
     path("register/", UserRegistrationAPIView.as_view(), name="user-registration"),
@@ -10,12 +10,22 @@ urlpatterns = [
     ),
     path(
         "work/",
-        WorkExperienceViewset.as_view({"post": "create","get": "list"}),
+        WorkExperienceViewset.as_view({"post": "create", "get": "list"}),
         name="work-experience",
     ),
     path(
         "work/<int:pk>/",
         WorkExperienceViewset.as_view({"put": "update", "delete": "destroy"}),
         name="work-experience",
+    ),
+    path(
+        "education/",
+        EducationViewset.as_view({"post": "create","get": "list"}),
+        name="education",
+    ),
+    path(
+        "education/<int:pk>/",
+        EducationViewset.as_view({"put": "update", "delete": "destroy"}),
+        name="education",
     ),
 ]
