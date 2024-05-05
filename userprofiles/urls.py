@@ -6,7 +6,7 @@ urlpatterns = [
     path("login/", UserLoginApiView.as_view(), name="user-login"),
     path(
         "info/",
-        UserProfileViewSet.as_view({"post": "create", "put": "update"}),
+        UserProfileViewSet.as_view({"post": "create", "put": "update","get": "list"}),
         name="user-info",
     ),
     path(

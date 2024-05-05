@@ -1,7 +1,13 @@
 from rest_framework import generics, permissions, status, viewsets
 from rest_framework.response import Response
-from userprofiles.serializers import UserSerializer, UserProfileSerializer,WorkExperienceSerializer,EducationSerializer,UserLoginSerializer
-from userprofiles.models import UserProfile,WorkExperience,Education
+from userprofiles.serializers import (
+    UserSerializer,
+    UserProfileSerializer,
+    WorkExperienceSerializer,
+    EducationSerializer,
+    UserLoginSerializer,
+)
+from userprofiles.models import UserProfile, WorkExperience, Education
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import AccessToken
@@ -19,6 +25,8 @@ class UserRegistrationAPIView(generics.CreateAPIView):
         }
 
         return Response(respObj, status=status.HTTP_201_CREATED, headers=resp.headers)
+
+
 class UserLoginApiView(generics.GenericAPIView):
     serializer_class = UserLoginSerializer
     permission_classes = [permissions.AllowAny]
@@ -51,11 +59,15 @@ class UserLoginApiView(generics.GenericAPIView):
 
         return Response(respObj, status=status.HTTP_403_FORBIDDEN)
 
+
 class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
 
     def get_object(self):
+        username = self.request.query_params.get("username")
+        if username is None:
+            return self.request.user.userprofile
         return self.request.user.userprofile
 
     def create(self, request):
@@ -73,27 +85,32 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     def update(self, request, *args, **kwargs):
         request.data["user_type"] = request.user.userprofile.user_type.label
         request.data["action"] = self.action
-        
+
         response = super().update(request, *args, **kwargs)
         respObj = {
             "status": "success",
             "message": "User data updated successfully",
             "data": "null",
         }
-        return Response(
-            respObj, status=status.HTTP_200_OK, headers=response.headers
-        )
+        return Response(respObj, status=status.HTTP_200_OK, headers=response.headers)
     
+    def retrieve(self, request, *args, **kwargs):
+        
+        return super().retrieve(request, *args, **kwargs)
+
+
 class WorkExperienceViewset(viewsets.ModelViewSet):
     queryset = WorkExperience.objects.all()
     serializer_class = WorkExperienceSerializer
 
     def get_queryset(self):
-        return super().get_queryset().filter(user_profile=self.request.user.userprofile.id)
+        return (
+            super().get_queryset().filter(user_profile=self.request.user.userprofile.id)
+        )
 
     def create(self, request):
 
-        request.data["user_profile"]= request.user.userprofile.id
+        request.data["user_profile"] = request.user.userprofile.id
         response = super().create(request)
         respObj = {
             "status": "success",
@@ -112,10 +129,8 @@ class WorkExperienceViewset(viewsets.ModelViewSet):
             "message": "WorkExperience updated successfully",
             "data": "null",
         }
-        return Response(
-            respObj, status=status.HTTP_200_OK, headers=response.headers
-        )
-    
+        return Response(respObj, status=status.HTTP_200_OK, headers=response.headers)
+
     def destroy(self, request, *args, **kwargs):
         response = super().destroy(request, *args, **kwargs)
         respObj = {
@@ -126,18 +141,20 @@ class WorkExperienceViewset(viewsets.ModelViewSet):
         return Response(
             respObj, status=status.HTTP_204_NO_CONTENT, headers=response.headers
         )
-    
+
 
 class EducationViewset(viewsets.ModelViewSet):
     queryset = Education.objects.all()
     serializer_class = EducationSerializer
 
     def get_queryset(self):
-        return super().get_queryset().filter(user_profile=self.request.user.userprofile.id)
+        return (
+            super().get_queryset().filter(user_profile=self.request.user.userprofile.id)
+        )
 
     def create(self, request):
 
-        request.data["user_profile"]= request.user.userprofile.id
+        request.data["user_profile"] = request.user.userprofile.id
         response = super().create(request)
         respObj = {
             "status": "success",
@@ -156,10 +173,8 @@ class EducationViewset(viewsets.ModelViewSet):
             "message": "Education updated successfully",
             "data": "null",
         }
-        return Response(
-            respObj, status=status.HTTP_200_OK, headers=response.headers
-        )
-    
+        return Response(respObj, status=status.HTTP_200_OK, headers=response.headers)
+
     def destroy(self, request, *args, **kwargs):
         response = super().destroy(request, *args, **kwargs)
         respObj = {
