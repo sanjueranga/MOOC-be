@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import AccessToken
-from .models import UserProfile, Country, UserType
+from .models import UserProfile, Country, UserType,Interest
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -38,6 +38,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     firstname = serializers.CharField(source="first_name", required=False)
     lastname = serializers.CharField(source="last_name", required=False)
     username = serializers.CharField(required=False)
+    interests = serializers.ListField(child=serializers.CharField(), required=False)
 
     class Meta:
         model = UserProfile
@@ -49,7 +50,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
         user_type = data.get("user_type")
         action = data.pop("action")
         user = request.user
-
         if action == "create":
             if UserProfile.objects.filter(user=user).exists():
                 raise serializers.ValidationError(
@@ -69,6 +69,16 @@ class UserProfileSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 {"User Type": "Invalid user type provided"}
             )
+        
+        interests = data.pop("interests", [])
+        data["interests"] = []
+        self.fields.pop("interests")
+        for interest in interests:
+            try:
+                interest_instance = Interest.objects.get(label=interest)
+                data["interests"].append(interest_instance)
+            except Interest.DoesNotExist:
+                pass
         return data
 
     def create(self, validated_data):
