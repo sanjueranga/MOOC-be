@@ -51,3 +51,4 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         return Response(
             respObj, status=status.HTTP_200_OK, headers=response.headers
         )
+    
