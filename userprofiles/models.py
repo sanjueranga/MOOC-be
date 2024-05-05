@@ -29,9 +29,14 @@ class UserInterest(models.Model):
         )
 
 
-class UserTypes(models.Model):
+class UserType(models.Model):
     label = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return self.label
     
+class AuthenticationType(models.Model):
+    label = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.label
