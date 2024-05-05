@@ -127,6 +127,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "last_name": instance.user.last_name,
             "email": instance.user.email,
             "country": instance.country.label,
+            "description": instance.description,
+            "profile_picture": instance.profile_picture if instance.profile_picture else "",
             "interests": [interest.label for interest in instance.interests.all()],
             "work_experience": work_data,
             "education": education_data,
