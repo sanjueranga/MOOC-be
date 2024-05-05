@@ -13,8 +13,8 @@ def load_initial_data(apps, schema_editor):
 
 
 def unload_initial_data(apps, schema_editor):
-    CountryModel = apps.get_model("userprofiles", "Degree")
-    CountryModel.objects.all().delete()
+    DegreeModel = apps.get_model("userprofiles", "Degree")
+    DegreeModel.objects.all().delete()
 
 
 class Migration(migrations.Migration):
