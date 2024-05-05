@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import AccessToken
-from .models import UserProfile, Country
+from .models import UserProfile, Country, UserType
 
 
 
@@ -34,6 +34,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserProfileSerializer(serializers.ModelSerializer):
     country = serializers.CharField(max_length=100)
+    user_type = serializers.CharField(max_length=100)
 
     class Meta:
         model = UserProfile
@@ -42,6 +43,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     def validate(self, data):
         request = self.context.get("request")
         country_name = data.get("country")
+        user_type = data.get("user_type")
         action = data.pop("action")
         user = request.user
 
@@ -56,6 +58,13 @@ class UserProfileSerializer(serializers.ModelSerializer):
         except Country.DoesNotExist:
             raise serializers.ValidationError(
                 {"Country": "Invalid country name provided"}
+            )
+        try:
+            user_type_instance = UserType.objects.get(label=user_type)
+            data["user_type"] = user_type_instance
+        except UserType.DoesNotExist:
+            raise serializers.ValidationError(
+                {"User Type": "Invalid user type provided"}
             )
         return data
 
