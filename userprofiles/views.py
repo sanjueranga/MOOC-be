@@ -1,7 +1,7 @@
 from rest_framework import generics, permissions, status, viewsets
 from rest_framework.response import Response
-from userprofiles.serializers import UserSerializer, UserProfileSerializer
-from userprofiles.models import UserProfile
+from userprofiles.serializers import UserSerializer, UserProfileSerializer,WorkExperienceSerializer
+from userprofiles.models import UserProfile,WorkExperience
 from django.contrib.auth.models import User
 
 
@@ -52,3 +52,30 @@ class UserProfileViewSet(viewsets.ModelViewSet):
             respObj, status=status.HTTP_200_OK, headers=response.headers
         )
     
+class WorkExperienceViewset(viewsets.ModelViewSet):
+    queryset = WorkExperience.objects.all()
+    serializer_class = WorkExperienceSerializer
+
+
+    def create(self, request):
+        response = super().create(request)
+        respObj = {
+            "status": "success",
+            "message": "WorkExperience data added successfully",
+            "data": "null",
+        }
+        return Response(
+            respObj, status=status.HTTP_201_CREATED, headers=response.headers
+        )
+
+    def update(self, request, *args, **kwargs):
+        
+        response = super().update(request, *args, **kwargs)
+        respObj = {
+            "status": "success",
+            "message": "WorkExperience updated successfully",
+            "data": "null",
+        }
+        return Response(
+            respObj, status=status.HTTP_200_OK, headers=response.headers
+        )
