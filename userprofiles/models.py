@@ -73,8 +73,8 @@ class WorkExperience(models.Model):
     user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     company = models.CharField(max_length=100)
     position = models.CharField(max_length=100)
-    start_date = models.DateField()
-    end_date = models.DateField()
+    start_date = models.CharField(max_length=7)
+    end_date = models.CharField(max_length=7)
     profile_picture = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):

@@ -58,6 +58,8 @@ class WorkExperienceViewset(viewsets.ModelViewSet):
 
 
     def create(self, request):
+
+        request.data["user_profile"]= request.user.userprofile.id
         response = super().create(request)
         respObj = {
             "status": "success",
@@ -70,7 +72,7 @@ class WorkExperienceViewset(viewsets.ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         
-        response = super().update(request, *args, **kwargs)
+        response = super().update(request, *args, partial=True, **kwargs)
         respObj = {
             "status": "success",
             "message": "WorkExperience updated successfully",
