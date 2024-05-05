@@ -90,7 +90,6 @@ class CreateUserProfileViewSetTest(APITestCase):
 
     def test_create_user_profile_success(self):
         user_data = {
-            "username": "bravo9161",
             "country": "Turkey",
             "user_type": "Student",
             "profile_picture": "abc.com",
@@ -160,3 +159,138 @@ class CreateUserProfileViewSetTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         expected_data = {"status": "fail", "message": ["Invalid user type provided"]}
         self.assertEqual(response.data, expected_data)
+
+
+class UpdateUserProfileTest(APITestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.url = reverse("user-info")
+        cls.user_data = {
+            "username": "testuser@abc.com",
+            "email": "testuser@abc.com",
+            "first_name": "test",
+            "last_name": "user",
+            "password": "testpassword",
+        }
+        cls.country = Country.objects.get(label="Turkey")
+        cls.profile_data = {
+            "country": cls.country,
+            "user_type": UserType.objects.get(label="Student"),
+            "birth_date": "2000-10-12",
+            "description": "lorem ipsum dolor sit amet",
+            "profile_picture": "url",
+        }
+        cls.user = User.objects.create_user(**cls.user_data)
+        cls.user_profile = UserProfile.objects.create(user=cls.user, **cls.profile_data)
+        cls.token = str(AccessToken.for_user(cls.user))
+
+    def setUp(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.token}")
+
+    def test_update_user_profile_success_functionality(self):
+        user_data = {
+            "username": "new_username",
+            "firstname": "John2",
+            "lastname": "Doe2",
+            "country": "Sri Lanka",
+            "profile_picture": "abc.com",
+            "birth_date": "2000-10-13",
+            "description": "user bio",
+        }
+        response = self.client.put(self.url, user_data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        updated_user_profile = UserProfile.objects.get(user=self.user)
+
+        self.assertEqual(updated_user_profile.user.username, user_data["username"])
+        self.assertEqual(updated_user_profile.user.first_name, user_data["firstname"])
+        self.assertEqual(updated_user_profile.user.last_name, user_data["lastname"])
+        self.assertEqual(updated_user_profile.country.label, user_data["country"])
+        self.assertEqual(updated_user_profile.description, user_data["description"])
+        self.assertEqual(
+            updated_user_profile.profile_picture, user_data["profile_picture"]
+        )
+
+    def test_update_user_profile_success_message(self):
+
+        user_data = {
+            "username": "new_username",
+            "firstname": "John2",
+            "lastname": "Doe2",
+            "country": "Sri Lanka",
+            "profile_picture": "abc.com",
+            "birth_date": "2000-10-13",
+            "description": "user bio",
+        }
+        response = self.client.put(self.url, user_data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        expected_response = {
+            "status": "success",
+            "message": "User data updated successfully",
+            "data": None
+        }
+        self.assertEqual(set(response.data), set(expected_response))
+
+    def test_create_user_profile_fail_duplicate_username(self):
+        another_user = {
+            "username": "updated_username",
+            "first_name": "test",
+            "last_name": "user",
+            "password": "testpassword",
+        }
+
+        duplicate_user = User.objects.create_user(**another_user)
+        user_data = {
+            "username": duplicate_user.username,
+            "firstname": "John2",
+            "lastname": "Doe2",
+            "country": "Sri Lanka",
+            "profile_picture": "abc.com",
+            "birth_date": "2000-10-13",
+            "description": "user bio",
+        }
+
+        response = self.client.put(self.url, user_data, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+        expected_data = {"status": "fail", "message": ["Username already exists"]}
+        self.assertEqual(response.data, expected_data)
+
+    def test_create_user_profile_fail_wrong_data_types(self):
+
+        user_data_country = {
+            "username": "new_username",
+            "firstname": "John2",
+            "lastname": "Doe2",
+            "country": "Sri Ladddnka",
+            "profile_picture": "abc.com",
+            "birth_date": "2000-10-13",
+            "description": "user bio",
+        }
+
+        response = self.client.put(self.url, user_data_country, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        expected_data = {"status": "fail", "message": ["Invalid country name provided"]}
+        self.assertEqual(response.data, expected_data)
+
+    def test_user_type_is_not_updated(self):
+        user_data = {
+            "username": "new_username",
+            "firstname": "John2",
+            "lastname": "Doe2",
+            "country": "Sri Lanka",
+            "profile_picture": "abc.com",
+            "birth_date": "2000-10-13",
+            "description": "user bio",
+            "user_type": "Teacher"
+        }
+
+        response = self.client.put(self.url, user_data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        updated_user_profile = UserProfile.objects.get(user=self.user)
+        self.assertEqual(updated_user_profile.user_type.label, "Student")
