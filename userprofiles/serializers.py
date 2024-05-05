@@ -46,6 +46,7 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
 
+
 class UserProfileSerializer(serializers.ModelSerializer):
     country = serializers.CharField(max_length=100)
     user_type = serializers.CharField(max_length=100)
@@ -111,12 +112,33 @@ class UserProfileSerializer(serializers.ModelSerializer):
         except Exception as e:
             raise serializers.ValidationError({"username": "Username already exists"})
         return super().update(instance, validated_data)
+    
+    def to_representation(self, instance):
+        work = WorkExperience.objects.filter(user_profile=instance)
+        education = Education.objects.filter(user_profile=instance)
+
+        work_data = WorkExperienceSerializer(work, many=True).data
+        education_data = EducationSerializer(education, many=True).data
+
+        representation = {
+            "user_id": instance.user.id,
+            "username": instance.user.username,
+            "first_name": instance.user.first_name,
+            "last_name": instance.user.last_name,
+            "email": instance.user.email,
+            "country": instance.country.label,
+            "interests": [interest.label for interest in instance.interests.all()],
+            "work_experience": work_data,
+            "education": education_data,
+        }
+        return representation
 
 
 class WorkExperienceSerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkExperience
         fields = "__all__"
+        
 
 
 class EducationSerializer(serializers.ModelSerializer):
