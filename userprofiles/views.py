@@ -41,6 +41,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     def update(self, request, *args, **kwargs):
         request.data["user_type"] = request.user.userprofile.user_type.label
         request.data["action"] = self.action
+        
         response = super().update(request, *args, **kwargs)
         respObj = {
             "status": "success",
