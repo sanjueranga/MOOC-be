@@ -78,9 +78,14 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         user = instance.user
-        user.username = validated_data.get("username", user.username)
-        user.first_name = validated_data.get("first_name", user.first_name)
-        user.last_name = validated_data.get("last_name", user.last_name)
-        user.save()
+        try:
+            user.username = validated_data.get("username", user.username)
+            user.first_name = validated_data.get("first_name", user.first_name)
+            user.last_name = validated_data.get("last_name", user.last_name)
+            user.save()
+        except Exception as e:
+            raise serializers.ValidationError(
+                {"username": "Username already exists"}
+            )
         return super().update(instance, validated_data)
        
