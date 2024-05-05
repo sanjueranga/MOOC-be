@@ -1,0 +1,127 @@
+[
+  {
+    "model": "userprofiles.degree",
+    "pk": 1,
+    "fields": { "label": "Secondary education or high school" }
+  },
+  {
+    "model": "userprofiles.degree",
+    "pk": 2,
+    "fields": { "label": "GED" }
+  },
+  {
+    "model": "userprofiles.degree",
+    "pk": 3,
+    "fields": { "label": "Vocational qualification" }
+  },
+  {
+    "model": "userprofiles.degree",
+    "pk": 4,
+    "fields": { "label": "BA" }
+  },
+  {
+    "model": "userprofiles.degree",
+    "pk": 5,
+    "fields": { "label": "BSc" }
+  },
+  {
+    "model": "userprofiles.degree",
+    "pk": 6,
+    "fields": { "label": "BENG" }
+  },
+  {
+    "model": "userprofiles.degree",
+    "pk": 7,
+    "fields": { "label": "LLB" }
+  },
+  {
+    "model": "userprofiles.degree",
+    "pk": 8,
+    "fields": { "label": "MARTS" }
+  },
+  {
+    "model": "userprofiles.degree",
+    "pk": 9,
+    "fields": { "label": "MBIOL" }
+  },
+  {
+    "model": "userprofiles.degree",
+    "pk": 10,
+    "fields": { "label": "MCOMP" }
+  },
+  {
+    "model": "userprofiles.degree",
+    "pk": 11,
+    "fields": { "label": "MENG" }
+  },
+  {
+    "model": "userprofiles.degree",
+    "pk": 12,
+    "fields": { "label": "MMATH" }
+  },
+  {
+    "model": "userprofiles.degree",
+    "pk": 13,
+    "fields": { "label": "MPHYS" }
+  },
+  {
+    "model": "userprofiles.degree",
+    "pk": 14,
+    "fields": { "label": "MSCI" }
+  },
+  {
+    "model": "userprofiles.degree",
+    "pk": 15,
+    "fields": { "label": "MA" }
+  },
+  {
+    "model": "userprofiles.degree",
+    "pk": 16,
+    "fields": { "label": "MSc" }
+  },
+  {
+    "model": "userprofiles.degree",
+    "pk": 17,
+    "fields": { "label": "MBA" }
+  },
+  {
+    "model": "userprofiles.degree",
+    "pk": 18,
+    "fields": { "label": "MPhil" }
+  },
+  {
+    "model": "userprofiles.degree",
+    "pk": 19,
+    "fields": { "label": "MRes" }
+  },
+  {
+    "model": "userprofiles.degree",
+    "pk": 20,
+    "fields": { "label": "LLM" }
+  },
+  {
+    "model": "userprofiles.degree",
+    "pk": 21,
+    "fields": { "label": "PhD" }
+  },
+  {
+    "model": "userprofiles.degree",
+    "pk": 22,
+    "fields": { "label": "DPhil" }
+  },
+  {
+    "model": "userprofiles.degree",
+    "pk": 23,
+    "fields": { "label": "Other" }
+  },
+  {
+    "model": "userprofiles.degree",
+    "pk": 24,
+    "fields": { "label": "Primary education" }
+  },
+  {
+    "model": "userprofiles.degree",
+    "pk": 25,
+    "fields": { "label": "No formal education" }
+  }
+]
