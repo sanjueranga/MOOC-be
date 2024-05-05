@@ -42,7 +42,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
         exclude = ["user"]
 
     def validate(self, data):
-        print(data)
         request = self.context.get("request")
         country_name = data.get("country")
         user_type = data.get("user_type")
