@@ -11,6 +11,7 @@ from userprofiles.models import UserProfile, WorkExperience, Education
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import AccessToken
+from django.shortcuts import get_object_or_404
 
 
 class UserRegistrationAPIView(generics.CreateAPIView):
@@ -68,7 +69,8 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         username = self.request.query_params.get("username")
         if username is None:
             return self.request.user.userprofile
-        return self.request.user.userprofile
+        
+        return get_object_or_404(UserProfile, user__username=username)
 
     def create(self, request):
         request.data["action"] = self.action
@@ -85,7 +87,6 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     def update(self, request, *args, **kwargs):
         request.data["user_type"] = request.user.userprofile.user_type.label
         request.data["action"] = self.action
-
         response = super().update(request, *args, **kwargs)
         respObj = {
             "status": "success",
@@ -95,8 +96,13 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         return Response(respObj, status=status.HTTP_200_OK, headers=response.headers)
     
     def retrieve(self, request, *args, **kwargs):
-        
-        return super().retrieve(request, *args, **kwargs)
+        response =  super().retrieve(request, *args, **kwargs)
+        respObj = {
+            "status": "success",
+            "data": response.data,
+        }
+        return Response(respObj, status=status.HTTP_200_OK, headers=response.headers)
+
 
 
 class WorkExperienceViewset(viewsets.ModelViewSet):
