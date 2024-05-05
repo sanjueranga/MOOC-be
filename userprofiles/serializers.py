@@ -35,12 +35,14 @@ class UserSerializer(serializers.ModelSerializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     country = serializers.CharField(max_length=100)
     user_type = serializers.CharField(max_length=100)
+    action = serializers.CharField(max_length=100, required=False)
 
     class Meta:
         model = UserProfile
         exclude = ["user"]
 
     def validate(self, data):
+        print(data)
         request = self.context.get("request")
         country_name = data.get("country")
         user_type = data.get("user_type")

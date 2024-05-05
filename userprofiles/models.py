@@ -32,10 +32,10 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_picture = models.CharField(max_length=100, blank=True, null=True)
     country = models.ForeignKey(Country, on_delete=models.PROTECT, blank=False)
-    description = models.TextField(max_length=1000)
+    description = models.TextField(max_length=1000,blank=True, null=True)
     birth_date = models.DateField()
     user_type = models.ForeignKey(UserType, on_delete=models.PROTECT)
-    interests = models.ManyToManyField(Interest)
+    interests = models.ManyToManyField(Interest, blank=True)
 
 
     def __str__(self):
