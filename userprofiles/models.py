@@ -27,3 +27,11 @@ class UserInterest(models.Model):
             "user",
             "interest",
         )
+
+
+class UserTypes(models.Model):
+    label = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.label
+    
