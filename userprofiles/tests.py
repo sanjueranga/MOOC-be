@@ -2,7 +2,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from django.contrib.auth.models import User
-from .models import UserProfile, Country, UserType
+from .models import UserProfile, Country, UserType,WorkExperience,Education,Institution,Degree
 from rest_framework_simplejwt.tokens import AccessToken
 
 
@@ -294,3 +294,161 @@ class UpdateUserProfileTest(APITestCase):
 
         updated_user_profile = UserProfile.objects.get(user=self.user)
         self.assertEqual(updated_user_profile.user_type.label, "Student")
+
+
+class WorkExperienceViewSetTest(APITestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.url = reverse("user-info")
+        cls.user_data = {
+            "username": "testuser@abc.com",
+            "email": "testuser@abc.com",
+            "first_name": "test",
+            "last_name": "user",
+            "password": "testpassword",
+        }
+        cls.country = Country.objects.get(label="Turkey")
+        cls.profile_data = {
+            "country": cls.country,
+            "user_type": UserType.objects.get(label="Student"),
+            "birth_date": "2000-10-12",
+            "description": "lorem ipsum dolor sit amet",
+            "profile_picture": "url",
+        }
+        cls.user = User.objects.create_user(**cls.user_data)
+        cls.user_profile = UserProfile.objects.create(user=cls.user, **cls.profile_data)
+        cls.token = str(AccessToken.for_user(cls.user))
+
+    def setUp(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.token}")
+        self.url = reverse("work-experience")
+
+    def test_add_work_experience_success(self):
+        work_data = {
+            "position": "Software Engineer",
+            "company": "Google",
+            "start_date": "2020-10",
+            "end_date": "2021-10",
+        }
+        response = self.client.post(self.url, work_data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["status"], "success")
+        self.assertEqual(response.data["message"], "WorkExperience data added successfully")
+
+    def test_update_work_experience_success(self):
+        work_data = {
+            "position": "Software Engineer",
+            "company": "Google",
+            "start_date": "2020-10",
+            "end_date": "2021-10",
+        }
+        work = WorkExperience.objects.create(user_profile=self.user_profile, **work_data)
+        work_id = work.id
+        work_data = {
+            "position": "Software Engineer",
+            "company": "Google",
+            "start_date": "2020-10",
+            "end_date": "2021-10",
+        }
+        response = self.client.put(f"/api/user/work/{work_id}/", work_data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["status"], "success")
+        self.assertEqual(response.data["message"], "WorkExperience updated successfully")
+
+    def test_delete_work_experience_success(self):
+        work_data = {
+            "position": "Software Engineer",
+            "company": "Google",
+            "start_date": "2020-10",
+            "end_date": "2021-10",
+        }
+        work = WorkExperience.objects.create(user_profile=self.user_profile, **work_data)
+        work_id = work.id
+        response = self.client.delete(f"/api/user/work/{work_id}/")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(response.data["status"], "success")
+        self.assertEqual(response.data["message"], "WorkExperience deleted successfully")
+    
+
+class EducationViewSetTest(APITestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.url = reverse("user-info")
+        cls.user_data = {
+            "username": "testuser@abc.com",
+            "email": "testuser@abc.com",
+            "first_name": "test",
+            "last_name": "user",
+            "password": "testpassword",
+        }
+        cls.country = Country.objects.get(label="Turkey")
+        cls.profile_data = {
+            "country": cls.country,
+            "user_type": UserType.objects.get(label="Student"),
+            "birth_date": "2000-10-12",
+            "description": "lorem ipsum dolor sit amet",
+            "profile_picture": "url",
+        }
+        cls.user = User.objects.create_user(**cls.user_data)
+        cls.user_profile = UserProfile.objects.create(user=cls.user, **cls.profile_data)
+        cls.token = str(AccessToken.for_user(cls.user))
+
+    def setUp(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.token}")
+        self.url = reverse("education")
+
+    def test_add_education_success(self):
+        education_data = {
+            "degree": "2",
+            "institution": "2",
+            "start_date": "2020-10",
+            "end_date": "2021-10",
+            "field_of_study":"cs"
+        }
+        response = self.client.post(self.url, education_data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["status"], "success")
+        self.assertEqual(response.data["message"], "Education data added successfully")
+
+    def test_update_education_success(self):
+        institution = Institution.objects.get(id=2)
+        degree = Degree.objects.get(id=2)
+        education_data = {
+            "degree": degree,
+            "institution": institution,
+            "start_date": "2020-10",
+            "end_date": "2021-10",
+            "field_of_study":"cs"
+        }
+        education = Education.objects.create(user_profile=self.user_profile, **education_data)
+        education_id = education.id
+        education_data = {
+            "degree": "2",
+            "institution": "3",
+            "start_date": "2020-10",
+            "end_date": "2021-10",
+            "field_of_study":"cs"
+        }
+        response = self.client.put(f"/api/user/education/{education_id}/", education_data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["status"], "success")
+        self.assertEqual(response.data["message"], "Education updated successfully")
+
+    def test_delete_education_success(self):
+        institution = Institution.objects.get(id=2)
+        degree = Degree.objects.get(id=2)
+        education_data = {
+            "degree": degree,
+            "institution": institution,
+            "start_date": "2020-10",
+            "end_date": "2021-10",
+            "field_of_study":"cs"
+        }
+        education = Education.objects.create(user_profile=self.user_profile, **education_data)
+        education_id = education.id
+        response = self.client.delete(f"/api/user/education/{education_id}/")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(response.data["status"], "success")
+        self.assertEqual(response.data["message"], "Education deleted successfully")
