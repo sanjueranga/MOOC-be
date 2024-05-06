@@ -667,4 +667,3 @@ class GetUserProfileTest(APITestCase):
         self.assertEqual(response.data["status"], "success")
 
 
-# here
