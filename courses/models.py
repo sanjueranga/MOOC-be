@@ -12,6 +12,7 @@ class Course(models.Model):
     duration = models.CharField(max_length=255)
     header_img = models.URLField(blank=True, null=True)
     description = models.CharField(max_length=255)
+    price = models.DecimalField(max_digits=6, decimal_places=2)
     tags = models.TextField()  
 
     def set_tags(self, tags_list):
