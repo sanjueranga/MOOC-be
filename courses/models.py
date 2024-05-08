@@ -6,13 +6,14 @@ import json
 class Course(models.Model):
     course_creator = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
-    offered_by = models.ForeignKey(Institution, on_delete=models.CASCADE)
+    offered_by = models.ForeignKey(Institution, on_delete=models.CASCADE, blank=True, null=True)
     approved = models.BooleanField(default=False)
     published = models.BooleanField(default=False)
     duration = models.CharField(max_length=255)
     header_img = models.URLField(blank=True, null=True)
     description = models.CharField(max_length=255)
-    tags = models.TextField()  
+    price = models.DecimalField(max_digits=6, decimal_places=2)
+    tags = models.TextField(blank=True, null=True)  
 
     def set_tags(self, tags_list):
         self.tags = json.dumps(tags_list)
