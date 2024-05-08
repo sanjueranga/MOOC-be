@@ -22,7 +22,12 @@ class Course(models.Model):
     
 
 class Role(models.Model):
-    label = models.CharField(max_length=100, unique=True)
+    ROLE_CHOICES = [
+        ('teacher', 'Teacher'),
+        ('course-creator', 'Course Creator'),
+        ('non-editing-teacher', 'Non-editing Teacher'),
+    ]
+    label = models.CharField(max_length=100, choices=ROLE_CHOICES, default='teacher')
 
     def __str__(self):
         return self.label
@@ -174,3 +179,15 @@ class CourseProgress(models.Model):
     enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     completed = models.BooleanField(default=False)
+
+
+class CertificateTemplate(models.Model):
+    template_name = models.CharField(max_length=255)
+    template_link = models.URLField()
+
+class Certificate(models.Model):
+    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
+    certificate_link = models.URLField()
+    issue_date = models.DateTimeField(auto_now_add=True)
+    expiration_date = models.DateTimeField()
+    certificate_number = models.CharField(max_length=255)
