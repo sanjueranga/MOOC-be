@@ -28,3 +28,10 @@ class CourseSerializer(serializers.ModelSerializer):
         if offered_by is None:
             attrs["offered_by"],created = Institution.objects.get_or_create(label=institution_label)
         return super().validate(attrs)
+    
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        institution = instance.offered_by
+        representation["offered_by"] = institution.label
+
+        return representation
