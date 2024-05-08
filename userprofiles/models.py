@@ -34,12 +34,20 @@ class AuthenticationType(models.Model):
 
 
 class UserProfile(models.Model):
+    user_type_choices = (
+        ("admin", "Admin"),
+        ("student", "Student"),
+        ("teacher", "Teacher"),
+    )
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_picture = models.CharField(max_length=100, blank=True, null=True)
     country = models.ForeignKey(Country, on_delete=models.PROTECT, blank=False)
     description = models.TextField(max_length=1000, blank=True, null=True)
     birth_date = models.DateField()
-    user_type = models.ForeignKey(UserType, on_delete=models.PROTECT, editable=False)
+    user_type = models.CharField(
+        max_length=100, choices=user_type_choices, editable=False, default="student"
+    )
     interests = models.ManyToManyField(Interest, blank=True)
 
     def __str__(self):
