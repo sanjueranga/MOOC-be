@@ -4,7 +4,6 @@ from rest_framework_simplejwt.tokens import AccessToken
 from .models import (
     UserProfile,
     Country,
-    UserType,
     Interest,
     WorkExperience,
     Education,
@@ -63,7 +62,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
     def validate(self, data):
         request = self.context.get("request")
         country_name = data.get("country")
-        user_type = data.get("user_type")
         action = data.pop("action")
         user = request.user
         if action == "create":
@@ -78,13 +76,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 {"Country": "Invalid country name provided"}
             )
-        try:
-            user_type_instance = UserType.objects.get(label=user_type)
-            data["user_type"] = user_type_instance
-        except UserType.DoesNotExist:
-            raise serializers.ValidationError(
-                {"User Type": "Invalid user type provided"}
-            )
+
 
         interests = data.pop("interests", [])
         data["interests"] = []
