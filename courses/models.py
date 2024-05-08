@@ -139,6 +139,7 @@ class Enrollment(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     enrollment_date = models.DateTimeField(auto_now_add=True)
+    completed = models.BooleanField(default=False)
 
 class Payment(models.Model):
     enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
@@ -160,24 +161,9 @@ class QuizProgress(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     score = models.IntegerField(null=True, blank=True)
 
-class AssignmentProgress(models.Model):
+class CodingAssignmentProgress(models.Model):
     enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
     assignment = models.ForeignKey(CodingAssignment, on_delete=models.CASCADE)
-    completed = models.BooleanField(default=False)
-
-class ChapterProgress(models.Model):
-    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
-    chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE)
-    completed = models.BooleanField(default=False)
-
-class WeekProgress(models.Model):
-    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
-    week = models.ForeignKey(Week, on_delete=models.CASCADE)
-    completed = models.BooleanField(default=False)
-
-class CourseProgress(models.Model):
-    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     completed = models.BooleanField(default=False)
 
 
