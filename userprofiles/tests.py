@@ -7,7 +7,6 @@ from django.contrib.auth.models import User
 from .models import (
     UserProfile,
     Country,
-    UserType,
     WorkExperience,
     Education,
     Institution,
@@ -101,7 +100,7 @@ class CreateUserProfileViewSetTest(APITestCase):
     def test_create_user_profile_success(self):
         user_data = {
             "country": "Turkey",
-            "user_type": "Student",
+            "user_type": "student",
             "profile_picture": "abc.com",
             "birth_date": "2000-10-12",
         }
@@ -115,7 +114,7 @@ class CreateUserProfileViewSetTest(APITestCase):
         self.assertEqual(
             updated_user_profile.profile_picture, user_data["profile_picture"]
         )
-        self.assertEqual(updated_user_profile.user_type.label, user_data["user_type"])
+        self.assertEqual(updated_user_profile.user_type, user_data["user_type"])
 
         expected_data = {
             "status": "success",
@@ -143,9 +142,8 @@ class CreateUserProfileViewSetTest(APITestCase):
 
     def test_create_user_profile_fail_wrong_data_types(self):
         user_data_country = {
-            "username": "bravo9161",
             "country": "Turkeydafd",
-            "user_type": "Student",
+            "user_type": "student",
             "profile_picture": "abc.com",
             "birth_date": "2000-10-12",
         }
@@ -154,20 +152,6 @@ class CreateUserProfileViewSetTest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         expected_data = {"status": "fail", "message": ["Invalid country name provided"]}
-        self.assertEqual(response.data, expected_data)
-
-        user_data_user_type = {
-            "username": "bravo9161",
-            "country": "Turkey",
-            "user_type": "Studentfd",
-            "profile_picture": "abc.com",
-            "birth_date": "2000-10-12",
-        }
-
-        response = self.post_request(user_data_user_type)
-
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        expected_data = {"status": "fail", "message": ["Invalid user type provided"]}
         self.assertEqual(response.data, expected_data)
 
 
@@ -186,7 +170,7 @@ class UpdateUserProfileTest(APITestCase):
         cls.country = Country.objects.get(label="Turkey")
         cls.profile_data = {
             "country": cls.country,
-            "user_type": UserType.objects.get(label="Student"),
+            "user_type": "student",
             "birth_date": "2000-10-12",
             "description": "lorem ipsum dolor sit amet",
             "profile_picture": "url",
@@ -296,14 +280,14 @@ class UpdateUserProfileTest(APITestCase):
             "profile_picture": "abc.com",
             "birth_date": "2000-10-13",
             "description": "user bio",
-            "user_type": "Teacher",
+            "user_type": "teacher",
         }
 
         response = self.client.put(self.url, user_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         updated_user_profile = UserProfile.objects.get(user=self.user)
-        self.assertEqual(updated_user_profile.user_type.label, "Student")
+        self.assertEqual(updated_user_profile.user_type, "student")
 
 
 class WorkExperienceViewSetTest(APITestCase):
@@ -321,7 +305,7 @@ class WorkExperienceViewSetTest(APITestCase):
         cls.country = Country.objects.get(label="Turkey")
         cls.profile_data = {
             "country": cls.country,
-            "user_type": UserType.objects.get(label="Student"),
+            "user_type": "student",
             "birth_date": "2000-10-12",
             "description": "lorem ipsum dolor sit amet",
             "profile_picture": "url",
@@ -408,7 +392,7 @@ class EducationViewSetTest(APITestCase):
         cls.country = Country.objects.get(label="Turkey")
         cls.profile_data = {
             "country": cls.country,
-            "user_type": UserType.objects.get(label="Student"),
+            "user_type": "student",
             "birth_date": "2000-10-12",
             "description": "lorem ipsum dolor sit amet",
             "profile_picture": "url",
@@ -579,7 +563,7 @@ class GetUserProfileTest(APITestCase):
         cls.country = Country.objects.get(label="Turkey")
         cls.profile_data = {
             "country": cls.country,
-            "user_type": UserType.objects.get(label="Student"),
+            "user_type": "student",
             "birth_date": "2000-10-12",
             "description": "lorem ipsum dolor sit amet",
             "profile_picture": "url",

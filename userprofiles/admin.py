@@ -2,7 +2,6 @@ from django.contrib import admin
 from .models import (
     Country,
     Interest,
-    UserType,
     UserProfile,
     Degree,
     Institution,
@@ -16,10 +15,6 @@ class CountryAdmin(admin.ModelAdmin):
 
 
 class InterestAdmin(admin.ModelAdmin):
-    list_display = ("label",)
-
-
-class UserTypeAdmin(admin.ModelAdmin):
     list_display = ("label",)
 
 
@@ -52,7 +47,6 @@ class WorkExperienceAdmin(admin.ModelAdmin):
 
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Interest, InterestAdmin)
-admin.site.register(UserType, UserTypeAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(Degree, DegreeAdmin)
 admin.site.register(Institution, InstitutionAdmin)

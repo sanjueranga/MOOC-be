@@ -19,13 +19,6 @@ class Interest(models.Model):
         return self.label
 
 
-class UserType(models.Model):
-    label = models.CharField(max_length=100, unique=True)
-
-    def __str__(self):
-        return self.label
-
-
 class AuthenticationType(models.Model):
     label = models.CharField(max_length=100, unique=True)
 
@@ -35,9 +28,9 @@ class AuthenticationType(models.Model):
 
 class UserProfile(models.Model):
     user_type_choices = (
-        ("admin", "Admin"),
-        ("student", "Student"),
-        ("teacher", "Teacher"),
+        ("admin", "admin"),
+        ("student", "student"),
+        ("teacher", "teacher"),
     )
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
