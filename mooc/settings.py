@@ -94,7 +94,8 @@ WSGI_APPLICATION = "mooc.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DJ_ENV = os.getenv("DJ_ENV", "development")
-print(DJ_ENV)
+
+
 if DJ_ENV == "production":
     DATABASES = {
         "default": {
